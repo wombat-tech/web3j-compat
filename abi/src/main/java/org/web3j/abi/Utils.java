@@ -49,8 +49,8 @@ public class Utils {
                 type = (Class<?>) ((ParameterizedType) reflectedType).getRawType();
                 return getParameterizedTypeName(typeReference, type);
             } else {
-                type = Class.forName(reflectedType.getTypeName());
-                return getSimpleTypeName(type);
+                Class<?> conv = Class.forName(((Class<?>) reflectedType).getName());
+                return getSimpleTypeName(conv);
             }
         } catch (ClassNotFoundException e) {
             throw new UnsupportedOperationException("Invalid class reference provided", e);
@@ -106,6 +106,17 @@ public class Utils {
         java.lang.reflect.Type type = typeReference.getType();
         java.lang.reflect.Type[] typeArguments =
                 ((ParameterizedType) type).getActualTypeArguments();
+
+        java.lang.reflect.Type reflectedType = typeArguments[0];
+        try
+        {
+            Class<?> conv = Class.forName(((Class) reflectedType).getName());
+            return (Class<T>)conv;
+        }
+        catch (ClassCastException e)
+        {
+            //
+        }
 
         String parameterizedTypeName = typeArguments[0].getTypeName();
         return (Class<T>) Class.forName(parameterizedTypeName);
