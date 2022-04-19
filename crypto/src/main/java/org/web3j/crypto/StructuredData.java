@@ -23,7 +23,7 @@ import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.generated.Uint256;
 
 public class StructuredData {
-    static class Entry {
+    public static class Entry {
         private final String name;
         private final String type;
 
@@ -44,7 +44,7 @@ public class StructuredData {
         }
     }
 
-    static class EIP712Domain {
+    public static class EIP712Domain {
         private final String name;
         private final String version;
         private final Uint256 chainId;
@@ -60,7 +60,7 @@ public class StructuredData {
                 @JsonProperty(value = "salt") String salt) {
             this.name = name;
             this.version = version;
-            this.chainId = chainId != null ? new Uint256(new BigInteger(chainId)) : null;
+            this.chainId = chainId != null ? new Uint256(new BigInteger(chainId)) : new Uint256(0);
             this.verifyingContract = verifyingContract;
             this.salt = salt;
         }
@@ -86,7 +86,7 @@ public class StructuredData {
         }
     }
 
-    static class EIP712Message {
+    public static class EIP712Message {
         private final HashMap<String, List<Entry>> types;
         private final String primaryType;
         private final Object message;
