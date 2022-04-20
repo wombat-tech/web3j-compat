@@ -90,7 +90,7 @@ public abstract class TypeReference<T extends org.web3j.abi.datatypes.Type>
 
         if (!(getType() instanceof ParameterizedType)) {
             Class<?> tt = Class.forName(((Class<?>) clsType).getName());
-            return (Class<T>)tt;
+            return (Class<T>) tt;
         } else if (getType() instanceof ParameterizedType) {
             return (Class<T>) ((ParameterizedType) clsType).getRawType();
         } else {

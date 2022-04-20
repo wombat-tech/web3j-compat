@@ -84,12 +84,9 @@ public abstract class FunctionReturnDecoder {
 
     private static FunctionReturnDecoder decoder() {
         final Iterator<FunctionReturnDecoderProvider> iterator = loader.iterator();
-        try
-        {
+        try {
             return iterator.hasNext() ? iterator.next().get() : defaultDecoder();
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             //
         }
 

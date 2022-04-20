@@ -108,13 +108,10 @@ public class Utils {
                 ((ParameterizedType) type).getActualTypeArguments();
 
         java.lang.reflect.Type reflectedType = typeArguments[0];
-        try
-        {
+        try {
             Class<?> conv = Class.forName(((Class) reflectedType).getName());
-            return (Class<T>)conv;
-        }
-        catch (ClassCastException e)
-        {
+            return (Class<T>) conv;
+        } catch (ClassCastException e) {
             //
         }
 
