@@ -88,13 +88,14 @@ public abstract class TypeReference<T extends org.web3j.abi.datatypes.Type>
     public Class<T> getClassType() throws ClassNotFoundException {
         Type clsType = getType();
 
-        if (!(getType() instanceof ParameterizedType)) {
-            Class<?> tt = Class.forName(((Class<?>) clsType).getName());
-            return (Class<T>) tt;
-        } else if (getType() instanceof ParameterizedType) {
+        if (getType() instanceof ParameterizedType) {
             return (Class<T>) ((ParameterizedType) clsType).getRawType();
         } else {
-            return (Class<T>) Class.forName(clsType.getTypeName());
+            try {
+                return (Class<T>) Class.forName(clsType.getTypeName());
+            } catch (java.lang.NoSuchMethodError e) {
+                return (Class<T>) Class.forName(((Class<?>) clsType).getName());
+            }
         }
     }
 

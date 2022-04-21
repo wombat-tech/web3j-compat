@@ -41,19 +41,29 @@ public class Utils {
     private Utils() {}
 
     static <T extends Type> String getTypeName(TypeReference<T> typeReference) {
+        java.lang.reflect.Type reflectedType = typeReference.getType();
         try {
-            java.lang.reflect.Type reflectedType = typeReference.getType();
-
             Class<?> type;
             if (reflectedType instanceof ParameterizedType) {
                 type = (Class<?>) ((ParameterizedType) reflectedType).getRawType();
                 return getParameterizedTypeName(typeReference, type);
             } else {
-                Class<?> conv = Class.forName(((Class<?>) reflectedType).getName());
-                return getSimpleTypeName(conv);
+                return getReflectedTypeName(reflectedType);
             }
         } catch (ClassNotFoundException e) {
             throw new UnsupportedOperationException("Invalid class reference provided", e);
+        }
+    }
+
+    static <T extends Type> String getReflectedTypeName(java.lang.reflect.Type reflectedType)
+            throws ClassNotFoundException {
+        try {
+            Class<?> type;
+            type = Class.forName(reflectedType.getTypeName());
+            return getSimpleTypeName(type);
+        } catch (java.lang.NoSuchMethodError e) {
+            Class<?> conv = Class.forName(((Class<?>) reflectedType).getName());
+            return getSimpleTypeName(conv);
         }
     }
 
@@ -107,16 +117,13 @@ public class Utils {
         java.lang.reflect.Type[] typeArguments =
                 ((ParameterizedType) type).getActualTypeArguments();
 
-        java.lang.reflect.Type reflectedType = typeArguments[0];
         try {
-            Class<?> conv = Class.forName(((Class) reflectedType).getName());
+            String parameterizedTypeName = typeArguments[0].getTypeName();
+            return (Class<T>) Class.forName(parameterizedTypeName);
+        } catch (java.lang.NoSuchMethodError e) {
+            Class<?> conv = Class.forName(((Class) typeArguments[0]).getName());
             return (Class<T>) conv;
-        } catch (ClassCastException e) {
-            //
         }
-
-        String parameterizedTypeName = typeArguments[0].getTypeName();
-        return (Class<T>) Class.forName(parameterizedTypeName);
     }
 
     @SuppressWarnings("unchecked")
