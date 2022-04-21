@@ -1,3 +1,9 @@
+## Android Friendly Web3j
+
+This is a fork of the excellent web3j project https://github.com/web3j/web3j
+
+The differences between this and vanilla web3j are that all cases where the library uses Android SDK level restricted calls (eg Reflection getOrDefault()) there is an added drop-through which handles the specific failure (exception) that's thrown when the older SDK build is used. So, it doesn't affect newer builds - these continue to function as normal.
+
 Web3j: Web3 Java Ethereum Ðapp API
 ==================================
 
