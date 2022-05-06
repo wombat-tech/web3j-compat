@@ -1,5 +1,5 @@
 
-apply plugin: 'com.diffplug.gradle.spotless'
+apply plugin: 'com.diffplug.spotless'
 apply plugin: "de.undercouch.download"
 
 task downloadJavaLicense(type: Download) {
